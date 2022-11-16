@@ -12,15 +12,12 @@ def getChannels():
     answer = response.read()
     dictionary = json.loads(answer)
     channels = dictionary["channels"]
-    #List Channels
-    for channel in channels:
-        print(channel['name'])
     return channels
 
 
 if __name__ == '__main__':
     channels = getChannels()
-    menu.menuOptions(channels)
+    menu.chooseStation(channels)
 
 
 
