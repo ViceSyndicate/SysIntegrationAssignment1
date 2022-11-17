@@ -15,7 +15,7 @@ def getChannels():
     except Exception as err:
         print(f'Other error: {err}')
     else:
-        dictionary = json.loads(response.content)
+        dictionary = response.json()
         channels = dictionary["channels"]
         return channels
 
@@ -26,6 +26,7 @@ def chooseStation(channels):
         print(f'{stationCounter} - {channel["name"]}')
         stationCounter = stationCounter + 1
     val = input("Pick a station: ")
+    # accept only integers between 0 and stationCounter
     stationOptions(val, channels)
 
 def stationOptions(val, channels):
