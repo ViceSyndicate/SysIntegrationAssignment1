@@ -1,4 +1,14 @@
 import webbrowser
+import urllib.request
+import json
+
+def getChannels():
+    api_url = "http://api.sr.se/api/v2/channels/?format=json"
+    response = urllib.request.urlopen(api_url)
+    answer = response.read()
+    dictionary = json.loads(answer)
+    channels = dictionary["channels"]
+    return channels
 
 def chooseStation(channels):
     # List Channels
