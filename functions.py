@@ -1,14 +1,23 @@
 import webbrowser
 import urllib.request
+import requests
 import json
+from requests.exceptions import HTTPError
 
 def getChannels():
+
     api_url = "http://api.sr.se/api/v2/channels/?format=json"
-    response = urllib.request.urlopen(api_url)
-    answer = response.read()
-    dictionary = json.loads(answer)
-    channels = dictionary["channels"]
-    return channels
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()
+    except HTTPError as http_err:
+        print(f'HTTP error: {http_err}')
+    except Exception as err:
+        print(f'Other error: {err}')
+    else:
+        dictionary = json.loads(response.content)
+        channels = dictionary["channels"]
+        return channels
 
 def chooseStation(channels):
     # List Channels

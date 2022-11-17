@@ -1,24 +1,24 @@
-import urllib.request
-import json
 #https://api.sr.se/api/documentation/v2/index.html
 #https://api.sr.se/api/documentation/v2/generella_parametrar.html
 #https://api.sr.se/api/documentation/v2/metoder/kanaler.html
 #https://api.sr.se/api/documentation/v2/metoder/kanaler.html
-import menu
+import functions
 
-def getChannels():
-    api_url = "http://api.sr.se/api/v2/channels/?format=json"
-    response = urllib.request.urlopen(api_url)
-    answer = response.read()
-    dictionary = json.loads(answer)
-    channels = dictionary["channels"]
-    return channels
-
+def menuOptions():
+    print("1 - List Station")
+    print("0 - Exit")
+    userInput = input()
+    if userInput == "1":
+        channels = functions.getChannels()
+        functions.chooseStation(channels)
+    # Other function options
+    return userInput
 
 if __name__ == '__main__':
-    channels = getChannels()
-    menu.chooseStation(channels)
-
+    userInput = menuOptions()
+    while userInput != '0' and userInput.upper() != 'EXIT':
+        userInput = menuOptions()
+    print("Exiting Program")
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
