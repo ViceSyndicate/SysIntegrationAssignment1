@@ -39,9 +39,16 @@ def chooseStation(channels):
 #WIP
 def stationOptions(val, channels):
     # add other options or data you'd like from chosen station.
-    # TODO: Implement menu similar to main.menuOptions()
-    listLastSong(val, channels)
-    playStation(val, channels)
+    print("1 - Play Station")
+    print("2 - List Last Song")
+    userInput = input()
+    if userInput == "1":
+        playStation(val, channels)
+    if userInput == "2":
+        listLastSong(val, channels)
+    else:
+        print("Invalid input")
+    return
 
 
 def playStation(stationVal, channels):
