@@ -18,7 +18,6 @@ def menuOptions():
     userInput = input()
     if userInput == "1":
         channels = functions.getChannels()
-        functions.chooseStation(channels)
     # Other function options
     return userInput
 

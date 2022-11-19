@@ -9,8 +9,9 @@ import time
 def getChannels():
     api_url = "http://api.sr.se/api/v2/channels/?format=json"
     dictionary = getRequestReturnJson(api_url)
-    channels = dictionary["channels"]
-    return channels
+    if dictionary != None:
+        channels = dictionary["channels"]
+        chooseStation(channels)
 
 
 def chooseStation(channels):
@@ -103,4 +104,5 @@ def getRequestReturnJson(url):
         print(f'HTTP error: {http_err}')
     except Exception as err:
         print(f'Other error: {err}')
-    return request.json()
+    else:
+        return request.json()
