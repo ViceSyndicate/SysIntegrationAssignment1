@@ -8,17 +8,9 @@ import time
 
 def getChannels():
     api_url = "http://api.sr.se/api/v2/channels/?format=json"
-    try:
-        response = requests.get(api_url)
-        response.raise_for_status()
-    except HTTPError as http_err:
-        print(f'HTTP error: {http_err}')
-    except Exception as err:
-        print(f'Other error: {err}')
-    else:
-        dictionary = response.json()
-        channels = dictionary["channels"]
-        return channels
+    dictionary = getRequestReturnJson(api_url)
+    channels = dictionary["channels"]
+    return channels
 
 
 def chooseStation(channels):
@@ -97,8 +89,18 @@ def getDailyChannelSchedule(channelId):
 #TODO
 def searchForProgram():
     input = ("Search Query: ")
-    requests.get(f'http://api.sr.se/api/v2/episodes/search/?query={input}')
+    request = requests.get(f'http://api.sr.se/api/v2/episodes/search/?query={input}')
+    request = request.json()
     return
 
 
 #TODO: Create function to handle request.get calls.
+def getRequestReturnJson(url):
+    try:
+        request = requests.get(url)
+        request.raise_for_status()
+    except HTTPError as http_err:
+        print(f'HTTP error: {http_err}')
+    except Exception as err:
+        print(f'Other error: {err}')
+    return request.json()
