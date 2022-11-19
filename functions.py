@@ -48,9 +48,9 @@ def stationOptions(val, channels):
     userInput = input()
     if userInput == "1":
         playStation(val, channels)
-    if userInput == "2":
+    elif userInput == "2":
         listLastSong(val, channels)
-    if userInput == "3":
+    elif userInput == "3":
         channelId = channels[(int(val))]['id']
         getDailyChannelSchedule(channelId)
     else:
@@ -76,22 +76,29 @@ def listLastSong(stationVal, channels):
     print(f"Previous Song: {songData['playlist']['previoussong']['artist']} - {songData['playlist']['previoussong']['title']}")
 
 
-#WIP Might turn in to daily
 def getDailyChannelSchedule(channelId):
 
     # scheduleList = []
     #milliSeconds = int(time.time() * 1000)
 
     #TODO error handling of GET request
-    request = requests.get(f'http://api.sr.se/api/v2/scheduledepisodes?channelid={channelId}&format=json')
+    request = requests.get(f'http://api.sr.se/api/v2/scheduledepisodes?channelid={channelId}&format=json&Size=50')
     requestJson = request.json()
     schedules = requestJson['schedule']
     for schedule in schedules:
         temp = schedule['starttimeutc']
         startTimeInMillis = re.findall(r'\d+', temp)
         startTime = datetime.datetime.fromtimestamp(int(startTimeInMillis[0])/1000)
-        print(str(startTime)  + " - " +  schedule['title'])
-        #scheduleList.append(startTimeInMillis[0])
+        startTime = startTime.strftime('%H:%M')
+        print(startTime + " - " + schedule['title'])
     return
 
-#Considering making a function for get requests that does try/catch.
+
+#TODO
+def searchForProgram():
+    input = ("Search Query: ")
+    requests.get(f'http://api.sr.se/api/v2/episodes/search/?query={input}')
+    return
+
+
+#TODO: Create function to handle request.get calls.

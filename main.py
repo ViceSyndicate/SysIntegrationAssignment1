@@ -41,7 +41,6 @@ def getChannelsScheduleStartTimesInMilliseconds():
 
 
 if __name__ == '__main__':
-    functions.getDailyChannelSchedule(163)
     userInput = menuOptions()
     while userInput != '0' and userInput.upper() != 'EXIT':
         userInput = menuOptions()
