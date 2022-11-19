@@ -79,8 +79,7 @@ def searchForProgram():
     input = ("Search Query: ")
     jsonData = getRequestReturnJsonOrNone(f'http://api.sr.se/api/v2/episodes/search/?query={input}')
     if jsonData != None:
-
-        #TODO
+        return #TODO
 
 
 # Returns None if exception occurred. Do "if != None" check before using returned data.
