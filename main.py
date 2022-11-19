@@ -2,12 +2,19 @@
 #https://api.sr.se/api/documentation/v2/generella_parametrar.html
 #https://api.sr.se/api/documentation/v2/metoder/kanaler.html
 #https://api.sr.se/api/documentation/v2/metoder/kanaler.html
+import re
+
 import functions
+import datetime
+import requests
+import time
 
 
 def menuOptions():
-    print("1 - List Station")
+    print("----------")
+    print("1 - List Stations")
     print("0 - Exit")
+    print("----------")
     userInput = input()
     if userInput == "1":
         channels = functions.getChannels()
@@ -16,13 +23,29 @@ def menuOptions():
     return userInput
 
 
+#Function returns start times of programs in milliseconds since 1970/01/01
+def getChannelsScheduleStartTimesInMilliseconds():
+
+    #seconds = int(time.time())
+    #milliSeconds = int(time.time() * 1000)
+
+    request = requests.get(f'http://api.sr.se/api/v2/scheduledepisodes?channelid=163&format=json')
+    requestJson = request.json()
+    schedules = requestJson['schedule']
+    scheduleList = []
+    for schedule in schedules:
+        temp = schedule['starttimeutc']
+        startTimeInMillis = re.findall(r'\d+', temp)
+        scheduleList.append(startTimeInMillis[0])
+    return scheduleList
+
+
 if __name__ == '__main__':
+    functions.getDailyChannelSchedule(163)
     userInput = menuOptions()
     while userInput != '0' and userInput.upper() != 'EXIT':
         userInput = menuOptions()
     print("Exiting Program")
-
-
 
 
 

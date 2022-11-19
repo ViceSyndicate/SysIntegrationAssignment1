@@ -1,6 +1,9 @@
+import datetime
 import webbrowser
 import requests
 from requests.exceptions import HTTPError
+import re
+import time
 
 
 def getChannels():
@@ -41,11 +44,15 @@ def stationOptions(val, channels):
     # add other options or data you'd like from chosen station.
     print("1 - Play Station")
     print("2 - List Last Song")
+    print("3 - Get Station Schedule")
     userInput = input()
     if userInput == "1":
         playStation(val, channels)
     if userInput == "2":
         listLastSong(val, channels)
+    if userInput == "3":
+        channelId = channels[(int(val))]['id']
+        getDailyChannelSchedule(channelId)
     else:
         print("Invalid input")
     return
@@ -68,5 +75,23 @@ def listLastSong(stationVal, channels):
     songData = currentSongRequest.json()
     print(f"Previous Song: {songData['playlist']['previoussong']['artist']} - {songData['playlist']['previoussong']['title']}")
 
+
+#WIP Might turn in to daily
+def getDailyChannelSchedule(channelId):
+
+    # scheduleList = []
+    #milliSeconds = int(time.time() * 1000)
+
+    #TODO error handling of GET request
+    request = requests.get(f'http://api.sr.se/api/v2/scheduledepisodes?channelid={channelId}&format=json')
+    requestJson = request.json()
+    schedules = requestJson['schedule']
+    for schedule in schedules:
+        temp = schedule['starttimeutc']
+        startTimeInMillis = re.findall(r'\d+', temp)
+        startTime = datetime.datetime.fromtimestamp(int(startTimeInMillis[0])/1000)
+        print(str(startTime)  + " - " +  schedule['title'])
+        #scheduleList.append(startTimeInMillis[0])
+    return
 
 #Considering making a function for get requests that does try/catch.
