@@ -4,6 +4,7 @@
 #https://api.sr.se/api/documentation/v2/metoder/kanaler.html
 import functions
 
+
 def menuOptions():
     print("1 - List Station")
     print("0 - Exit")
@@ -14,11 +15,15 @@ def menuOptions():
     # Other function options
     return userInput
 
+
 if __name__ == '__main__':
     userInput = menuOptions()
     while userInput != '0' and userInput.upper() != 'EXIT':
         userInput = menuOptions()
     print("Exiting Program")
+
+
+
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
