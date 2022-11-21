@@ -1,21 +1,16 @@
+import datetime
 import webbrowser
 import requests
 from requests.exceptions import HTTPError
+import re
 
 
 def getChannels():
     api_url = "http://api.sr.se/api/v2/channels/?format=json"
-    try:
-        response = requests.get(api_url)
-        response.raise_for_status()
-    except HTTPError as http_err:
-        print(f'HTTP error: {http_err}')
-    except Exception as err:
-        print(f'Other error: {err}')
-    else:
-        dictionary = response.json()
+    dictionary = getRequestReturnJsonOrNone(api_url)
+    if dictionary != None:
         channels = dictionary["channels"]
-        return channels
+        chooseStation(channels)
 
 
 def chooseStation(channels):
@@ -41,14 +36,17 @@ def stationOptions(val, channels):
     # add other options or data you'd like from chosen station.
     print("1 - Play Station")
     print("2 - List Last Song")
+    print("3 - Get Station Schedule")
     userInput = input()
     if userInput == "1":
         playStation(val, channels)
-    if userInput == "2":
+    elif userInput == "2":
         listLastSong(val, channels)
+    elif userInput == "3":
+        channelId = channels[(int(val))]['id']
+        getDailyChannelSchedule(channelId)
     else:
         print("Invalid input")
-    return
 
 
 def playStation(stationVal, channels):
@@ -58,15 +56,44 @@ def playStation(stationVal, channels):
 
 def listLastSong(stationVal, channels):
     channelId = channels[(int(stationVal))]['id']
+    songData = getRequestReturnJsonOrNone(f'http://api.sr.se/api/v2/playlists/rightnow?channelid={channelId}&format=json')
+    if songData != None:
+        print(f"Previous Song: {songData['playlist']['previoussong']['artist']} - {songData['playlist']['previoussong']['title']}")
+
+
+def getDailyChannelSchedule(channelId):
+    jsonData = getRequestReturnJsonOrNone(f'http://api.sr.se/api/v2/scheduledepisodes?channelid={channelId}&format=json&Size=50')
+    if jsonData != None:
+        schedules = jsonData['schedule']
+        for schedule in schedules:
+            temp = schedule['starttimeutc']
+            startTimeInMillis = re.findall(r'\d+', temp)
+            startTime = datetime.datetime.fromtimestamp(int(startTimeInMillis[0]) / 1000)
+            startTime = startTime.strftime('%H:%M')
+            print(startTime + " - " + schedule['title'])
+
+
+#Could use improvement
+def searchForProgram():
+    userInput = input("Search Query: ")
+    jsonData = getRequestReturnJsonOrNone(f'http://api.sr.se/api/v2/episodes/search/?query={userInput}&format=json&Size=50')
+    if jsonData != None:
+        tenFirstResults = jsonData['episodes']
+        resultCounter = 0
+        for result in tenFirstResults:
+            print(f"{resultCounter}. {result['title']}")
+            print(result['url'])
+            resultCounter = resultCounter + 1
+
+
+# Returns None if exception occurred. Do "if != None" check before using returned data.
+def getRequestReturnJsonOrNone(url):
     try:
-        currentSongRequest = requests.get(f'http://api.sr.se/api/v2/playlists/rightnow?channelid={channelId}&format=json')
-        currentSongRequest.raise_for_status()
+        request = requests.get(url)
+        request.raise_for_status()
     except HTTPError as http_err:
         print(f'HTTP error: {http_err}')
     except Exception as err:
         print(f'Other error: {err}')
-    songData = currentSongRequest.json()
-    print(f"Previous Song: {songData['playlist']['previoussong']['artist']} - {songData['playlist']['previoussong']['title']}")
-
-
-#Considering making a function for get requests that does try/catch.
+    else:
+        return request.json()

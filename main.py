@@ -6,12 +6,16 @@ import functions
 
 
 def menuOptions():
-    print("1 - List Station")
+    print("----------")
+    print("1 - List Stations")
+    print("2 - Search for Program")
     print("0 - Exit")
+    print("----------")
     userInput = input()
     if userInput == "1":
-        channels = functions.getChannels()
-        functions.chooseStation(channels)
+        functions.getChannels()
+    if userInput == "2":
+        functions.searchForProgram()
     # Other function options
     return userInput
 
@@ -21,9 +25,6 @@ if __name__ == '__main__':
     while userInput != '0' and userInput.upper() != 'EXIT':
         userInput = menuOptions()
     print("Exiting Program")
-
-
-
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
