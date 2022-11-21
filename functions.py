@@ -73,13 +73,17 @@ def getDailyChannelSchedule(channelId):
             print(startTime + " - " + schedule['title'])
 
 
-
-#TODO
+#Could use improvement
 def searchForProgram():
-    input = ("Search Query: ")
-    jsonData = getRequestReturnJsonOrNone(f'http://api.sr.se/api/v2/episodes/search/?query={input}')
+    userInput = input("Search Query: ")
+    jsonData = getRequestReturnJsonOrNone(f'http://api.sr.se/api/v2/episodes/search/?query={userInput}&format=json&Size=50')
     if jsonData != None:
-        return #TODO
+        tenFirstResults = jsonData['episodes']
+        resultCounter = 0
+        for result in tenFirstResults:
+            print(f"{resultCounter}. {result['title']}")
+            print(result['url'])
+            resultCounter = resultCounter + 1
 
 
 # Returns None if exception occurred. Do "if != None" check before using returned data.

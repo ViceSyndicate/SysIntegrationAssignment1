@@ -8,11 +8,14 @@ import functions
 def menuOptions():
     print("----------")
     print("1 - List Stations")
+    print("2 - Search for Program")
     print("0 - Exit")
     print("----------")
     userInput = input()
     if userInput == "1":
         functions.getChannels()
+    if userInput == "2":
+        functions.searchForProgram()
     # Other function options
     return userInput
 
