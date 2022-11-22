@@ -21,6 +21,7 @@ def menuOptions():
 
 
 if __name__ == '__main__':
+    functions.checkForAlerts()
     userInput = menuOptions()
     while userInput != '0' and userInput.upper() != 'EXIT':
         userInput = menuOptions()

@@ -4,7 +4,7 @@ import requests
 from requests.exceptions import HTTPError
 import re
 
-
+# NOTE We can replace Size=50 with pagination=false in our url's to avoid limiting our results
 def getChannels():
     api_url = "http://api.sr.se/api/v2/channels/?format=json"
     dictionary = getRequestReturnJsonOrNone(api_url)
@@ -89,6 +89,27 @@ def searchForProgram():
             print(f"{resultCounter}. {startTime}: {result['title']}")
             print(result['url'])
             resultCounter = resultCounter + 1
+
+
+def checkForAlerts():
+    jsonData = getRequestReturnJsonOrNone("https://vmaapi.sr.se/testapi/v2/alerts")
+    alerts = jsonData['alerts']
+    if jsonData != None:
+        for alert in alerts:
+            #status = "actual" makes sure we only list real alerts and not tests.
+            if alert['status'] == "Test" and alert['msgType'] != "Cancel" :# Remember to change this to 'actual'
+                print(f"{alert['msgType']}. ID: {alert['incidents']}")
+
+                if alert['info'] != None:
+                    affectedAreas = []
+                    for infoInAlert in alert['info']:
+                        print(f"Category: {infoInAlert['category']}")
+                        print(f"Urgency: {infoInAlert['urgency']}")
+                        print(f"Event: {infoInAlert['event']}")
+                        print(f"Description: {infoInAlert['description']}")
+                        for area in infoInAlert['area']:
+                            affectedAreas.append(area['areaDesc'])
+                        print(f"Affected Areas: {affectedAreas}")
 
 
 # Returns None if exception occurred. Do "if != None" check before using returned data.
