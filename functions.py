@@ -81,7 +81,12 @@ def searchForProgram():
         tenFirstResults = jsonData['episodes']
         resultCounter = 0
         for result in tenFirstResults:
-            print(f"{resultCounter}. {result['title']}")
+            playedDate = result['broadcasttime']['starttimeutc']
+            startTimeInMillis = re.findall(r'\d+', playedDate)
+            startTime = datetime.datetime.fromtimestamp(int(startTimeInMillis[0]) / 1000)
+            #Leftover formatting example for Adora
+            #startTime = startTime.strftime('%D - %H:%M')
+            print(f"{resultCounter}. {startTime}: {result['title']}")
             print(result['url'])
             resultCounter = resultCounter + 1
 
