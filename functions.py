@@ -1,3 +1,4 @@
+
 import datetime
 import webbrowser
 import requests
@@ -102,3 +103,5 @@ def getRequestReturnJsonOrNone(url):
         print(f'Other error: {err}')
     else:
         return request.json()
+    
+
