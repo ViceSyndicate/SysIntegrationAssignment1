@@ -23,7 +23,6 @@ def menu_options():
 if __name__ == '__main__':
     print("Checking for Important Public Announcements...")
     functions.check_for_alerts()
-    print("------------------")
     user_input = menu_options()
     while user_input != '0' and user_input.upper() != 'EXIT':
         user_input = menu_options()

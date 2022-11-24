@@ -66,7 +66,7 @@ def list_last_song(stationVal, channels):
 
 def get_daily_channel_schedule(channelId):
     json_data = get_request_return_json_or_none(
-        f'https://api.sr.se/api/v2/scheduledepisodes?channelid={channelId}&format=json&Size=50')
+        f'https://api.sr.se/api/v2/scheduledepisodes?channelid={channelId}&format=json&pagination=false')
     if json_data is not None:
         schedules = json_data['schedule']
         for schedule in schedules:
@@ -101,21 +101,19 @@ def check_for_alerts():
     alerts = json_data['alerts']
     if json_data is not None:
         for alert in alerts:
-            # status = "actual" makes sure we only list real alerts and not tests.
-            # Remember to change this to 'actual'
-            if alert['status'] == "Test" and alert['msgType'] != "Cancel":
+            # status = 'actual' makes sure we only list real alerts and not tests.
+            # status = 'Test' can be used for test data
+            if alert['status'] == "actual" and alert['msgType'] != "Cancel":
                 print(f"{alert['msgType']}. ID: {alert['incidents']}")
-
                 if alert['info'] is not None:
-                    affected_areas = []
                     for infoInAlert in alert['info']:
                         print(f"Category: {infoInAlert['category']}")
                         print(f"Urgency: {infoInAlert['urgency']}")
                         print(f"Event: {infoInAlert['event']}")
                         print(f"Description: {infoInAlert['description']}")
+                        print(f"Affected Areas", end=': ')
                         for area in infoInAlert['area']:
-                            affected_areas.append(area['areaDesc'])
-                        print(f"Affected Areas: {affected_areas}")
+                            print(f"{area['areaDesc']}", end=', ')
 
 
 # Returns None if exception occurred. Do "if != None" check before using returned data.
