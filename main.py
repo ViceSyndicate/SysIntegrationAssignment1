@@ -21,7 +21,9 @@ def menuOptions():
 
 
 if __name__ == '__main__':
+    print("Checking for Important Public Announcements...")
     functions.checkForAlerts()
+    print("------------------")
     userInput = menuOptions()
     while userInput != '0' and userInput.upper() != 'EXIT':
         userInput = menuOptions()

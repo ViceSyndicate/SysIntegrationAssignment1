@@ -91,6 +91,7 @@ def searchForProgram():
             resultCounter = resultCounter + 1
 
 
+#WIP
 def checkForAlerts():
     jsonData = getRequestReturnJsonOrNone("https://vmaapi.sr.se/testapi/v2/alerts")
     alerts = jsonData['alerts']
