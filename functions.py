@@ -7,7 +7,7 @@ import re
 
 # NOTE We can replace Size=50 with pagination=false in our url's to avoid limiting our results
 def get_channels():
-    api_url = "https://api.sr.se/api/v2/channels/?format=json"
+    api_url = "https://api.sr.se/api/v2/channels/?format=json&pagination=false"
     dictionary = get_request_return_json_or_none(api_url)
     if dictionary is not None:
         channels = dictionary["channels"]
