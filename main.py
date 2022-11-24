@@ -5,28 +5,28 @@
 import functions
 
 
-def menuOptions():
+def menu_options():
     print("----------")
     print("1 - List Stations")
     print("2 - Search for Program")
     print("0 - Exit")
     print("----------")
-    userInput = input()
-    if userInput == "1":
-        functions.getChannels()
-    if userInput == "2":
-        functions.searchForProgram()
+    user_input = input()
+    if user_input == "1":
+        functions.get_channels()
+    if user_input == "2":
+        functions.search_for_program()
     # Other function options
-    return userInput
+    return user_input
 
 
 if __name__ == '__main__':
     print("Checking for Important Public Announcements...")
-    functions.checkForAlerts()
+    functions.check_for_alerts()
     print("------------------")
-    userInput = menuOptions()
-    while userInput != '0' and userInput.upper() != 'EXIT':
-        userInput = menuOptions()
+    user_input = menu_options()
+    while user_input != '0' and user_input.upper() != 'EXIT':
+        user_input = menu_options()
     print("Exiting Program")
 
 
