@@ -7,6 +7,7 @@ def menu_options():
     print("1 - List Stations")
     print("2 - Search for Program")
     print("3 - Extra Programs")
+    print("4 - list traffic messages")
     print("----------")
 
     user_input = input()
@@ -19,6 +20,8 @@ def menu_options():
         functions.search_for_program()
     elif user_input == "3":
         functions1.my_menu()
+    elif user_input == "4":
+        functions1.traffic_menue()
     # Other function options
     return user_input
 
