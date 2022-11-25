@@ -4,8 +4,14 @@ import requests
 import re
 from main import menu_options
 
+
 def my_menu():
-    choice = input("[P]rogram details, [l]atest Published Programs or [m]enu Options? ")
+    """
+    User_input 3 (More programs) har ytterligare program att välja på 'p' för att visa programmet
+    detaljr, 'l' för de senaste programmen, 'm' för att gå tillbaka till main menu
+    :return:
+    """
+    choice = input("[P]rogram details, [l]atest published Programs or [m]enu options? ")
     while choice:
         if choice.lower().strip() == 'p':
             program_details()
@@ -15,10 +21,15 @@ def my_menu():
             menu_options()
         else:
             print(f"Don't know what to do with {choice}.")
-        choice = input("[P]rogram details, [l]atest Published Programs or [m]enu Options? ")
+        choice = input("[P]rogram details, [l]atest published programs or [m]enu options? ")
 
 
 def program_details():
+    """
+    Funktionen visar API dictionary keys, antal program och antal/vilka sök parametrar som finns i APIet.
+    Funktionen returnerar olika program samt deras respektiva detaljer.
+    :return:
+    """
     url = 'http://api.sr.se/api/v2/programs?format=json'
     headers = {'Accept': 'application/json'}
     r = requests.get(url, headers=headers)
@@ -48,6 +59,10 @@ def program_details():
 
 
 def latest_published_programs():
+    """
+    Funktionen returnerar de senaste programmen som finns tillgängliga just nu
+    :return:
+    """
     url = 'http://api.sr.se/api/v2/lastpublished?format=json'
     headers = {'Accept': 'application/json'}
     r = requests.get(url, headers=headers)
@@ -66,7 +81,6 @@ def latest_published_programs():
     for show_id in shows_ids:
         print(f"Id:{show_id['id']}")
         print(f"Title: {show_id['title']}")
-        print(f"Description:{show_id['description']}")
         end_time = show_id['endtimeutc']
         end_time = re.findall(r'\d+', end_time)
         end_time = datetime.fromtimestamp(int(end_time[0]) / 1000)
