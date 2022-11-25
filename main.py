@@ -1,11 +1,5 @@
-#https://api.sr.se/api/documentation/v2/index.html
-#https://api.sr.se/api/documentation/v2/generella_parametrar.html
-#https://api.sr.se/api/documentation/v2/metoder/kanaler.html
-#https://api.sr.se/api/documentation/v2/metoder/kanaler.html
 import functions
 import functions1
-
-
 
 def menu_options():
     print("----------")
@@ -34,12 +28,8 @@ def menu_options():
 
 if __name__ == '__main__':
     print("Checking for Important Public Announcements...")
-   # functions.check_for_alerts()
+    functions.check_for_alerts()
     user_input = menu_options()
     while user_input != '0' and user_input.upper() != 'EXIT':
         user_input = menu_options()
     print("Exiting Program")
-
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-

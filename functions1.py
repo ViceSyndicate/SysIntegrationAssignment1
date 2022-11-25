@@ -88,6 +88,7 @@ def latest_published_programs():
         print(f"Type:{show_id['type']}")
         print("\n--------------------------------------")
 
+
 def traffic_menue():
             val = input("Press 1 traffic information, Press 2 to Back to menue options \n")
 
@@ -111,5 +112,3 @@ def get_message():
                 print(f"Exactlocation: {message_id['exactlocation']}")
                 print(f"Description: {message_id['description']}")
                 print("\n...........")
-
-

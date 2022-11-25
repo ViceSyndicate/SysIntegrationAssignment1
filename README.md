@@ -1,3 +1,3 @@
 Victor Skårerverket
-Alex Laursen
-Adora Bronzini
+Alexander Laursen 
+Adoracion Bronzini
