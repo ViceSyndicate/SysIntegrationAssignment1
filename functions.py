@@ -50,13 +50,13 @@ def station_options(val, channels):
         print("Invalid input")
 
 
-def play_station(stationVal, channels):
-    channel_url = channels[(int(stationVal))]['liveaudio']['url']
+def play_station(station_val, channels):
+    channel_url = channels[(int(station_val))]['liveaudio']['url']
     webbrowser.open_new_tab(channel_url)
 
 
-def list_last_song(stationVal, channels):
-    channel_id = channels[(int(stationVal))]['id']
+def list_last_song(station_val, channels):
+    channel_id = channels[(int(station_val))]['id']
     song_data = get_request_return_json_or_none(
         f'https://api.sr.se/api/v2/playlists/rightnow?channelid={channel_id}&format=json')
     if song_data is not None:
@@ -64,9 +64,9 @@ def list_last_song(stationVal, channels):
               f" - {song_data['playlist']['previoussong']['title']}")
 
 
-def get_daily_channel_schedule(channelId):
+def get_daily_channel_schedule(channel_id):
     json_data = get_request_return_json_or_none(
-        f'https://api.sr.se/api/v2/scheduledepisodes?channelid={channelId}&format=json&pagination=false')
+        f'https://api.sr.se/api/v2/scheduledepisodes?channelid={channel_id}&format=json&pagination=false')
     if json_data is not None:
         schedules = json_data['schedule']
         for schedule in schedules:
@@ -81,7 +81,7 @@ def get_daily_channel_schedule(channelId):
 def search_for_program():
     user_input = input("Search Query: ")
     json_data = get_request_return_json_or_none(
-        f'https://api.sr.se/api/v2/episodes/search/?query={user_input}&format=json&Size=50')
+        f'https://api.sr.se/api/v2/episodes/search/?query={user_input}&format=json&pagination=false')
     if json_data is not None:
         results = json_data['episodes']
         result_counter = 0
@@ -97,7 +97,7 @@ def search_for_program():
 
 # WIP
 def check_for_alerts():
-    json_data = get_request_return_json_or_none("https://vmaapi.sr.se/testapi/v2/alerts")
+    json_data = get_request_return_json_or_none("https://vmaapi.sr.se/api/v2/alerts")
     alerts = json_data['alerts']
     if json_data is not None:
         for alert in alerts:
